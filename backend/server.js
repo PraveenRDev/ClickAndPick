@@ -6,6 +6,7 @@ import connectDb from './config/db.js'
 
 import productsRoute from './routes/productRoutes.js'
 import userRoute from './routes/userRoutes.js'
+import orderRoute from './routes/orderRoutes.js'
 
 dotenv.config()
 
@@ -18,6 +19,11 @@ app.use(express.json())
 app.get('/', (req, res) => res.send('API Running'))
 app.use('/api/products', productsRoute)
 app.use('/api/users', userRoute)
+app.use('/api/orders', orderRoute)
+
+app.get('/api/config/paypal', (req, res) =>
+	res.send(process.env.PAYPAL_CLIENT_ID)
+)
 
 app.use(notFound)
 app.use(errorHandler)
@@ -25,8 +31,8 @@ app.use(errorHandler)
 const PORT = process.env.PORT || 500
 
 app.listen(
-  PORT,
-  console.log(
-    `Server running in ${process.env.NODE_ENV} on port ${PORT}`.yellow.bold
-  )
+	PORT,
+	console.log(
+		`Server running in ${process.env.NODE_ENV} on port ${PORT}`.yellow.bold
+	)
 )
